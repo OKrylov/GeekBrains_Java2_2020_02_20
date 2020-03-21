@@ -71,6 +71,7 @@
             <properties>
               <background color="-2499098"/>
               <model>
+                <item value="All"/>
                 <item value="username1"/>
                 <item value="username2"/>
                 <item value="username3"/>

@@ -1,8 +1,6 @@
 package ru.geekbrains.java2.client;
 
 import ru.geekbrains.java2.client.controller.ClientController;
-import ru.geekbrains.java2.client.model.NetworkService;
-import ru.geekbrains.java2.client.view.AuthDialog;
 
 import java.io.IOException;
 

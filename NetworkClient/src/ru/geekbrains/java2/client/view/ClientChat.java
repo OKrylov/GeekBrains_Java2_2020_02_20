@@ -5,6 +5,7 @@ import ru.geekbrains.java2.client.controller.ClientController;
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.List;
 
 public class ClientChat extends JFrame {
 
@@ -18,7 +19,6 @@ public class ClientChat extends JFrame {
 
     public ClientChat(ClientController controller) {
         this.controller = controller;
-        setTitle(controller.getUsername());
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(640, 480);
         setLocationRelativeTo(null);
@@ -44,14 +44,25 @@ public class ClientChat extends JFrame {
         }
 
         appendOwnMessage(message);
-        controller.sendMessage(message);
+
+        if (usersList.getSelectedIndex() < 1) {
+            controller.sendMessageToAllUsers(message);
+        }
+        else {
+            String username = usersList.getSelectedValue();
+            controller.sendPrivateMessage(username, message);
+        }
+
         messageTextField.setText(null);
     }
 
     public void appendMessage(String message) {
-        SwingUtilities.invokeLater(() -> {
-            chatText.append(message);
-            chatText.append(System.lineSeparator());
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                chatText.append(message);
+                chatText.append(System.lineSeparator());
+            }
         });
     }
 
@@ -61,4 +72,15 @@ public class ClientChat extends JFrame {
     }
 
 
+    public void showError(String message) {
+        JOptionPane.showMessageDialog(this, "Failed to send message!");
+    }
+
+    public void updateUsers(List<String> users) {
+        SwingUtilities.invokeLater(() -> {
+            DefaultListModel<String> model = new DefaultListModel<>();
+            model.addAll(users);
+            usersList.setModel(model);
+        });
+    }
 }
